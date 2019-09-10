@@ -10,7 +10,7 @@ class ProfilePresenter {
 
     private lateinit var view : ProfileView
     private val compositeDisposable = CompositeDisposable()
-    private val userId = "8a533d76f625c3f8103057f12fb4bace"
+
 
     fun bind(view: ProfileView){
         this.view = view

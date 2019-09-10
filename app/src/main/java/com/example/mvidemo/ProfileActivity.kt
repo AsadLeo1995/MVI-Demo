@@ -7,11 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 class ProfileActivity : AppCompatActivity(), ProfileView {
 
     private lateinit var dialog: AlertDialog
-    private lateinit var presenter: ProfilePresenter
+
+    // Lazy injected ProfilePresenter
+    private val presenter: ProfilePresenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +25,6 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
             .setContext(this)
             .build()
 
-        presenter = ProfilePresenter()
         presenter.bind(this)
 
         presenter.getUserProfile(getString(R.string.user_id))

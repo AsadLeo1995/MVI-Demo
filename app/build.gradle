@@ -48,4 +48,8 @@ dependencies {
     //Spots progress dialog
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
 
+    // Koin
+    implementation "org.koin:koin-android:2.0.1"
+
+
 }
