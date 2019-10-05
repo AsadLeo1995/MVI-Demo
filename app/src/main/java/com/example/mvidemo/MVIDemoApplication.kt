@@ -13,7 +13,7 @@ class MVIDemoApplication : Application(){
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@MVIDemoApplication)
-            modules(appModule)
+            modules(listOf(networkModule,appModule))
         }
     }
 }

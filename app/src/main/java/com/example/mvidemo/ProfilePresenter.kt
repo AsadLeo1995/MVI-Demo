@@ -6,7 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ProfilePresenter {
+class ProfilePresenter(private val webservice: Webservice) {
 
     private lateinit var view : ProfileView
     private val compositeDisposable = CompositeDisposable()
@@ -17,7 +17,7 @@ class ProfilePresenter {
     }
 
     fun getUserProfile(userId: String) =
-        WebServiceFactory.getInstance()
+             webservice
             .getMyProfile(userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
