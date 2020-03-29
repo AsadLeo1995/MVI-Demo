@@ -4,21 +4,25 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mvidemo.databinding.ActivityProfileBinding
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import org.koin.android.ext.android.inject
 
 class ProfileActivity : AppCompatActivity(), ProfileView {
 
     private lateinit var dialog: AlertDialog
+    private lateinit var binding: ActivityProfileBinding
 
     // Lazy injected ProfilePresenter
     private val presenter: ProfilePresenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         dialog = SpotsDialog
             .Builder()
@@ -54,8 +58,8 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
             .resize(120, 120)
             .placeholder(R.drawable.placeholder)
             .centerCrop()
-            .into(iv)
-        name.text = user.userName
+            .into(binding.iv)
+        binding.name.text = user.userName
     }
 
     private fun renderErrorState(errorState: ProfileState.ErrorState) {
