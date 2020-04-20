@@ -10,12 +10,12 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-
 private const val BASE_URL = "https://customproject-6a04e.firebaseio.com/"
 
 val appModule = module {
+        single<BaseSchedulerProvider> { provideScheduler() }
         factory  {
-            ProfilePresenter(get())
+            ProfilePresenter(get(),get())
         }
     }
 
@@ -57,3 +57,5 @@ fun provideRetrofit(gson: Gson, client: OkHttpClient) =
         .build()
 
 fun provideApiInterface(retrofit: Retrofit) = retrofit.create(Webservice::class.java)
+
+fun provideScheduler() = SchedulerProvider()

@@ -1,12 +1,10 @@
 package com.example.mvidemo
 
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxkotlin.subscribeBy
 
-class ProfilePresenter(private val webservice: Webservice) {
+class ProfilePresenter(private val schedulerProvider: BaseSchedulerProvider, private val webservice: Webservice) {
+
 
     private lateinit var view : ProfileView
     private val compositeDisposable = CompositeDisposable()
@@ -17,29 +15,19 @@ class ProfilePresenter(private val webservice: Webservice) {
     }
 
     fun getUserProfile(userId: String) =
-             webservice
+        webservice
             .getMyProfile(userId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .doOnSubscribe { d ->
+                compositeDisposable.add(d)
+                view.render(ProfileState.LoadingState)
+            }
             .doOnTerminate { view.render(ProfileState.FinishState) }
-             .subscribe(object : Observer<User> {
-                override fun onComplete() {
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    compositeDisposable.add(d)
-                    view.render(ProfileState.LoadingState)
-                }
-
-                override fun onNext(t: User) {
-                    view.render(ProfileState.DataState(t))
-                }
-
-                override fun onError(e: Throwable) {
-                    view.render(ProfileState.ErrorState(e.localizedMessage))
-                }
-
-            })
+            .subscribeBy(
+                onNext = { user -> view.render(ProfileState.DataState(user)) },
+                onError = { e -> view.render(ProfileState.ErrorState(e.localizedMessage)) }
+            )
 
     fun unbind() {
         if (!compositeDisposable.isDisposed) {

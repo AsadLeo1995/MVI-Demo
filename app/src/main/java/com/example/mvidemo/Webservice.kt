@@ -1,8 +1,6 @@
 package com.example.mvidemo
 
-import androidx.lifecycle.LiveData
 import io.reactivex.Observable
-
 import retrofit2.http.GET
 import retrofit2.http.Path
 

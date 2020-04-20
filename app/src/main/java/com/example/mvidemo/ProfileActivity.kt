@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mvidemo.databinding.ActivityProfileBinding
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
-import kotlinx.android.synthetic.main.activity_profile.*
 import org.koin.android.ext.android.inject
 
 class ProfileActivity : AppCompatActivity(), ProfileView {
@@ -51,15 +50,15 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
     private fun renderDataState(dataState: ProfileState.DataState) {
         //Render profile
         val user = dataState.data
-        if(user.userImage!!.isNotEmpty())
+        if(user.user_image.isNotEmpty())
         Picasso
             .get()
-            .load(user.userImage)
+            .load(user.user_image)
             .resize(120, 120)
             .placeholder(R.drawable.placeholder)
             .centerCrop()
             .into(binding.iv)
-        binding.name.text = user.userName
+        binding.name.text = user.user_name
     }
 
     private fun renderErrorState(errorState: ProfileState.ErrorState) {

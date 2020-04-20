@@ -1,19 +1,8 @@
 package com.example.mvidemo
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 
-
-class User {
-
-    @SerializedName("user_id")
-    @Expose
-    var userId: Int? = null
-    @SerializedName("user_image")
-    @Expose
-    var userImage: String? = null
-    @SerializedName("user_name")
-    @Expose
-    var userName: String? = null
-
-}
+data class User(
+    val user_id: Int,
+    val user_image: String,
+    val user_name: String
+)
